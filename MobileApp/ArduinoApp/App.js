@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 
-const SERVER_URL = 'http://192.168.250.24:5000'; 
+const SERVER_URL = 'http://192.168.159.24:5000'; 
 
 export default function App() {
   const [systemStatus, setSystemStatus] = useState('OFF');
