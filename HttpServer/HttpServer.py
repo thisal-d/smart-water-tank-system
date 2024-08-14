@@ -48,4 +48,4 @@ def update():
     return '', 204
 
 
-app.run(debug=True, host='192.168.250.24', port=5000)
+app.run(debug=True, host='192.168.159.24', port=5000)
