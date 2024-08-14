@@ -10,8 +10,8 @@
 char auth[] = "2POexugO2YdI1_IPFMtxgqGUnnGqHYC7";
 const char* ssid = "Redmi Note 11";
 const char* password = "123456789";
-const char* serverName = "http://192.168.250.24:5000/update"; // Replace with your Flask server IP
-const char* toggleURL = "http://192.168.250.24:5000/get_system"; // Endpoint to toggle system state
+const char* serverName = "http://192.168.159.24:5000/update"; // Replace with your Flask server IP
+const char* toggleURL = "http://192.168.159.24:5000/get_system"; // Endpoint to toggle system state
 
 const int buzzerPin = 25;
 const int pumpPin = 4;
@@ -119,7 +119,7 @@ void sendStatusUpdate() {
 void toggleSystem() {
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    char * s = "http://192.168.250.24:5000/get_system";
+    char * s = "http://192.168.159.24:5000/get_system";
     http.begin(s);
 
     int httpCode = http.GET(); // Make the GET request
