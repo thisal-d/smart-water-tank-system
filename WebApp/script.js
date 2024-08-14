@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://192.168.250.24:5000';
+const SERVER_URL = 'http://192.168.159.24:5000';
 const SYSTEM_CONTROL_BUTTON = document.getElementById("system-control-button")
 
 
