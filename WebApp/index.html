@@ -7,19 +7,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Title :D</h1>
-    <div class="status">
-        <p>System Status: <span id="systemStatus">OFF</span></p>
-        <p>Buzzer Status: <span id="buzzerStatus">OFF</span></p>
-        <p>Pump Status: <span id="pumpStatus">OFF</span></p>
-        <p>LED Status: <span id="ledStatus">OFF</span></p>
-        <p>Distance to Water: <span id="distanceToWater">0 cm</span></p>
-        <p>Water pH Value: <span id="waterPhValue">0 pH</span></p>
+    <h1>Smart Water Tank Monitoring System</h1>
+    <hr>
+    <div class="main-div">
+        <div class="status">
+            <div class="status-container">
+                <img src="imgs//system.png" alt="" class="icon">
+                <p>System Status: <span id="systemStatus">OFF</span></p>
+            </div>
+    
+            <div class="status-container">
+                <img src="imgs//bell.png" alt="" class="icon">
+                <p>Buzzer Status: <span id="buzzerStatus">OFF</span></p>
+            </div>
+    
+            <div class="status-container">
+                <img src="imgs//pump.png" alt="" class="icon">
+                <p>Pump Status: <span id="pumpStatus">OFF</span></p>
+            </div>
+    
+            <div class="status-container">
+                <img src="imgs//led.png" alt="" class="icon">
+                <p>LED Status: <span id="ledStatus">OFF</span></p>
+            </div>
+    
+            <div class="status-container">
+                <img src="imgs//signal.png" alt="" class="icon">
+                <p>Distance to Water: <span id="distanceToWater">0 cm</span></p>
+            </div>
+            
+            <div class="status-container">
+                <img src="imgs//ph.png" alt="" class="icon">
+                <p>Water pH Value: <span id="waterPhValue">0.0 pH</span></p>
+            </div>
+            
+        </div>
+        
+        <div class="control">
+            <button id="system-control-button">OFF/ON System</button>
+        </div>
     </div>
     
-    <div class="control">
-        <button id="system-control-button">OFF/ON System</button>
-    </div>
 
     <script src="script.js"></script>
 </body>
