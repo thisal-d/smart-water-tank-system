@@ -53,11 +53,8 @@ const char* ssid = "SLT fibre";
 const char* password = "0912275170";
 
 // Server ip
-<<<<<<< HEAD
-const String serverUrl = "http://192.168.17.185:5000";
-=======
 const String serverUrl = "http://192.168.1.78:5000";
->>>>>>> 182f66d543e0e16f5806642723211753385a5f06
+
 
 #define HIGH 0x0;
 #define LOW 0x1;
@@ -192,8 +189,5 @@ void loop(){
   }
   
   delay(1000);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 182f66d543e0e16f5806642723211753385a5f06
+
