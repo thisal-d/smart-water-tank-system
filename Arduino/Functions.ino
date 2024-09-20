@@ -162,10 +162,20 @@ void turnOffDevice(int devicePin, bool &deviceStatus){
 // Handle the buzzer sound effects
 void turnOnBuzzer(int waterLevel, int usableTankHeight, int buzzerPin, double warningLevel1, double warningLevel2, double warningLevel3){
   int delayTime = 0;
-  if (waterLevel >= warningLevel3 * usableTankHeight)  delayTime = 100;
-  else if (waterLevel >= warningLevel2 * usableTankHeight)  delayTime = 400;
-  else if (waterLevel >= warningLevel1 * usableTankHeight)  delayTime = 800;
-  for (int i=0; i<5; i++){
+  int repeats = 0;
+  if (waterLevel >= warningLevel3 * usableTankHeight) 
+    {delayTime = 100; 
+    repeats = 5;
+  }
+  else if (waterLevel >= warningLevel2 * usableTankHeight) {
+    delayTime = 400;
+    repeats = 2;
+  }
+  else if (waterLevel >= warningLevel1 * usableTankHeight) {
+    delayTime = 800; 
+    repeats = 1;
+  } 
+  for (int i=0; i<repeats; i++){
     digitalWrite(buzzerPin, LOW);
     delay(delayTime);
     digitalWrite(buzzerPin, HIGH);
