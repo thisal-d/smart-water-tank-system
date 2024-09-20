@@ -6,10 +6,10 @@ import {
   ScrollView,
   Image,
   TouchableOpacity, 
-  ImageBackground, 
+  ImageBackground
 } from 'react-native';
 
-const SERVER = 'http://192.168.17.185'; 
+const SERVER = 'http://192.168.17.24'; 
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -23,67 +23,105 @@ const WHITE = "#FFFFFF";
 const BLACK = "#000000";
 const GREY = "#404040";
 
+
 export default function App() {
   // Device functions status indicator
-  const [systemStatus, setSystemStatus] = useState('Off');
-  const [buzzerStatus, setBuzzerStatus] = useState('On');
-  const [pumpStatus, setPumpStatus] = useState('OFF');
-  const [ledStatus, setLedStatus] = useState('OFF');
+  const [systemStatus, setSystemStatus] = useState(true);
+  const [buzzerStatus, setBuzzerStatus] = useState(false);
+  const [pumpStatus, setPumpStatus] = useState(false);
   const [WaterLevel, setDistanceToWater] = useState('0');
   const [waterMglValue, setWaterMglValue] = useState('0');
-  
+  const [pumpControlMode, setPumpControlMethod] = useState("automatic");
+  const [pumpManualControlledStatus, setPumpManualControlledStatus] = useState(false);
 
-  const [pumpControlMode, setPumpControlMode] = useState('Automatic');
-  const [buttonPumpStatus, setButtonPumpStatus] = useState('On');
-  const [buttonSystemStatus, setButtonSystemStatus] = useState('On');
-
-  // Device and Server indicator status check, at the startt of app status will be 'Checking'.
-  let [serverConnectionStatus, setServerConnectionStatus] = useState('Checking');
-  const [deviceStatus, setDeviceStatus] = useState('Checking');
+  // Device and Server indicator status track, default 'Checking'.
+  const [serverConnectionStatus, setServerConnectionStatus] = useState(null);
+  const [deviceStatus, setDeviceStatus] = useState(null);
 
 
   const fetchStatus = async () => {
     try {
       const response = await fetch(`${SERVER_URL}/get-status`);
       const data = await response.json();
-      console.log(data);
-      setSystemStatus(data["system_status"]? "On" : "Off");
-      setBuzzerStatus(data["buzzer_status"]? "On" : "Off");
-      setPumpStatus(data["pump_status"]? "On" : "Off");
-      setLedStatus(data["led_green_status"]? "On" : "Off");
-      setDistanceToWater(data["water_level"]);
+      setSystemStatus(data["system_status"]);
+      setBuzzerStatus(data["buzzer_status"]);
+      setPumpStatus(data["pump_status"]);
       setWaterMglValue(data["water_mgl_value"]);
-      setServerConnectionStatus('Online');
+      setPumpControlMethod(data["pump_control_method"]);
+      setPumpManualControlledStatus(data['pump_manual_controlled_status']);
+      setServerConnectionStatus(true);
+      setDeviceStatus(data["device_status"])
     } catch (error) {
-      console.error('Error fetching status:', error);
-      setServerConnectionStatus('Offline');
+      console.log('Error fetching status:', error);
+      setDeviceStatus(null)
+      setServerConnectionStatus(false)
     }
-    console.log(serverConnectionStatus);
   };
 
   const systemTurnOnOff = async () => {
     try {
-      await fetch(`${SERVER_URL}/toggle`, { method: 'POST' });
+      const response = await fetch(`${SERVER_URL}/get-system-status`);
+      const data = await response.json();
+      let currentSystemStatus = data["system_status"];
+
+      if (currentSystemStatus){
+        try{
+          await fetch(`${SERVER_URL}/turn-off-system`, { method: 'POST' });
+        } catch (error){
+          console.log("Error : off system:", error);
+        }
+      }
+      else {
+        try{
+          await fetch(`${SERVER_URL}/turn-on-system`, { method: 'POST' });
+        } catch (error){
+          console.log("Error : on system:", error);
+        }
+      }
+
     } catch (error) {
-      console.error('Error toggling system:', error);
+      console.log('Error : toggling system:', error);
     }
   };
 
-  const pumpTurnOnOff = async () => {
+  const pumpTurnOnOffAutoMatic = async () => {
     try{
-      await fetch(`${SERVER_URL}/toggle`, { method: 'POST' });
+      // Get Current Pump Control Mode
+      const response = await fetch(`${SERVER_URL}/get-pump_control_method`);
+      const data1 = await response.json()
+      let currentPumpControlMode = data1["pump_control_method"];
+
+      const response2 = await fetch(`${SERVER_URL}/get-pump-manual-controlled-status`);
+      const data2 = await response2.json();
+      let currentPumpManualControlledStatus = data2["pump_manual_controlled_status"];
+
+      if (currentPumpControlMode=="automatic"){
+        try {
+          await fetch(`${SERVER_URL}/turn-on-pump-manually`, { method: 'POST' });
+        } catch (error) {
+          console.log('Error : turn on pump:', error);
+        }
+      }
+      else if (currentPumpControlMode=="manual" && currentPumpManualControlledStatus){
+        try {
+          await fetch(`${SERVER_URL}/turn-off-pump-manually`, { method: 'POST' });
+        } catch (error) {
+          console.log('Error : turn off pump:', error);
+        }
+      }
+      else{
+        try {
+          await fetch(`${SERVER_URL}/turn-on-automatic-pump-control-mode`, { method: 'POST' });
+        } catch (error) {
+          console.log('Error : automatic pump:', error);
+        }
+      }
+
     } catch (error) {
-      console.error('Error toggling system:', error);
+      console.log('Error : pump control', error);
     }
   }
 
-  const pumpControlModeChange = async () => {
-    try{
-      
-    } catch(error){
-      console.log("error");
-    }
-  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,43 +133,11 @@ export default function App() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View  style={styles.mainContainer}>
-        <ImageBackground source={require('./assets/bg.jpg')} resizeMode="cover" style={styles.backGroungImage}>
+        <ImageBackground source={require('./assets/bg.jpg')} resizeMode="cover" style={styles.backGroundImage}>
           <View style={styles.subContainer}>
             <Text style={styles.title}>Smart Water Tank System</Text>
             <View style={styles.status}>
 
-              <View style={styles.outputContainer}>
-                <View style={styles.imageContainer}>
-                  <Image source={require('./assets/system.png')} style={{ width: 40, height: 40 }} class={styles.icon}/>
-                </View>
-                <Text style={styles.statusTitle}>System Status : </Text>
-                <Text style={[styles.statusValue, {color : systemStatus === 'ON' ? GREEN : RED}]}>{systemStatus}</Text>
-              </View>
-          
-              <View style={styles.outputContainer}>
-                <View style={styles.imageContainer}>
-                  <Image source={require('./assets/buzzer.png')} style={{ width: 38, height: 38 }} />
-                </View>
-                <Text style={styles.statusTitle}>Buzzer Status : </Text>
-                <Text style={[styles.statusValue, {color: buzzerStatus === 'ON' ? RED : RED}]}>{buzzerStatus}</Text>
-              </View>
-
-              <View style={styles.outputContainer}>
-                <View style={styles.imageContainer}>
-                  <Image source={require('./assets/pump.png')} style={{ width: 40, height: 40 }} />
-                </View>
-                <Text style={styles.statusTitle}>Pump Status : </Text>
-                <Text style={[styles.statusValue , {color: pumpStatus === 'ON' ? GREEN : RED}]}>{pumpStatus}</Text>
-              </View>
-
-              <View style={styles.outputContainer}>
-                <View style={styles.imageContainer}>
-                  <Image source={require('./assets/led.png')} style={{ width: 50, height: 50 }} />
-                </View>
-                <Text style={styles.statusTitle}>LED Status : </Text>
-                <Text style={[styles.statusValue, {color: ledStatus === 'ON' ? GREEN : RED}]}>{ledStatus}</Text>
-              </View>
-              
               <View style={styles.outputContainer}>
                 <View style={styles.imageContainer}>
                   <Image source={require('./assets/level.png')} style={{ width: 36, height: 36}} />
@@ -144,43 +150,70 @@ export default function App() {
                 <View style={styles.imageContainer}>
                   <Image source={require('./assets/quality.png')} style={{ width: 38, height: 38}} />
                 </View>
-                <Text style={styles.statusTitle}>Water Mgl Value : </Text>
+                <Text style={styles.statusTitle}>Water quality : </Text>
                 <Text style={[styles.statusValue, {color: waterMglValue < 5 || waterMglValue > 8? GREEN : RED}]}>{waterMglValue} Mgl</Text>
               </View>
 
+              <View style={styles.outputContainer}>
+                <View style={styles.imageContainer}>
+                  <Image source={require('./assets/system.png')} style={{ width: 40, height: 40 }} class={styles.icon}/>
+                </View>
+                <Text style={styles.statusTitle}>System Status : </Text>
+                <Text style={[styles.statusValue, {color : systemStatus ? GREEN : RED}]}>{systemStatus ? 'ON' : 'OFF' }</Text>
+              </View>
+          
+              <View style={styles.outputContainer}>
+                <View style={styles.imageContainer}>
+                  <Image source={require('./assets/pump.png')} style={{ width: 40, height: 40 }} />
+                </View>
+                <Text style={styles.statusTitle}>Pump Status : </Text>
+                <Text style={[styles.statusValue , {color: pumpStatus ? GREEN : RED}]}>{pumpStatus ? 'ON' : 'OFF' }</Text>
+              </View>
+
+              <View style={styles.outputContainer}>
+                <View style={styles.imageContainer}>
+                  <Image source={require('./assets/buzzer.png')} style={{ width: 38, height: 38 }} />
+                </View>
+                <Text style={styles.statusTitle}>Buzzer Status : </Text>
+                <Text style={[styles.statusValue, {color: buzzerStatus ? RED : RED}]}>{buzzerStatus ? 'ON' : 'OFF' }</Text>
+              </View>
+
             </View>
+
             <View style={styles.buttonContainer}>
-              <View style={styles.buttonContatiner}>
+              <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>System : </Text>
                 <TouchableOpacity style={styles.controlButton} onPress={systemTurnOnOff}>
-                  <Text style={styles.btnText}>{(systemStatus == 'on') ?'On' : 'Off'}</Text>
+                  <Text style={styles.btnText}>{systemStatus ? 'OFF' : 'ON'}</Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.buttonContatiner}>
+
+              <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Pump : </Text>
-                <TouchableOpacity style={styles.controlButton} onPress={pumpTurnOnOff}>
-                  <Text style={styles.btnText}>{(pumpStatus == 'on') ?'On' : 'Off'}</Text>
+                <TouchableOpacity style={styles.controlButton} onPress={pumpTurnOnOffAutoMatic}>
+                  <Text style={styles.btnText}>
+                    {
+                      (pumpControlMode == 'automatic') ? 'Manual/On' : 
+                      (pumpControlMode == 'manual' && pumpManualControlledStatus) ? 'Manual/Off' : 'Automatic'
+                    }
+                    </Text>
                 </TouchableOpacity>
               </View>
-              <View style={styles.buttonContatiner}>
-                <Text style={styles.buttonText}>Pump Control Mode : </Text>
-                <TouchableOpacity style={styles.controlButton} onPress={pumpControlModeChange}>
-                  <Text style={styles.btnText}>{pumpControlMode}</Text>
-                </TouchableOpacity>
-              </View>
+
             </View>
           </View>
 
-          <View style={styles.statusContatiner}>
+          <View style={styles.statusContainer}>
             <View style={styles.statusSubContainer}>
               <Text style={styles.statusTitleText}>Server Connection : </Text>
-              <Text>{serverConnectionStatus}</Text>
-              <View style={[styles.statusCircle, {backgroundColor: serverConnectionStatus === 'Checking' ? GREY :serverConnectionStatus === 'Online' ? GREEN : RED}]}></View>
+              <Text>{(serverConnectionStatus === null) ? "Unknown" : serverConnectionStatus ? 'Online' : 'Offline'}</Text>
+              <View style={[styles.statusCircle, {backgroundColor: serverConnectionStatus === null ? GREY :serverConnectionStatus ? GREEN : RED}]}></View>
             </View>
+
             <View style={styles.statusSubContainer}>
               <Text style={styles.statusTitleText}>Device Status : </Text>
-              <Text>{deviceStatus}</Text>
-              <View style={[styles.statusCircle, {backgroundColor: deviceStatus === 'Checking' ? GREY :deviceStatus === 'Online' ? GREEN : RED}]}></View>
+              <Text>{(deviceStatus === null) ? "Unknown" : deviceStatus ? "Online" : "Offline" }</Text>
+              <View style={[styles.statusCircle, {backgroundColor: deviceStatus === null ? GREY :deviceStatus ? GREEN : RED}]}></View>
             </View> 
           </View>
         </ImageBackground>
@@ -200,7 +233,7 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 0,
   },
-  backGroungImage: {
+  backGroundImage: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'red',
@@ -266,7 +299,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold'
   },
-  statusContatiner : {
+  statusContainer : {
     marginTop: 0,
     flexDirection: 'column',
     textAlign: 'center',
@@ -290,7 +323,7 @@ const styles = StyleSheet.create({
   statusTitleText:{
     fontWeight: 'bold',
   },
-  buttonContatiner: {
+  buttonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
