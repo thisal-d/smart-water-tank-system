@@ -24,7 +24,7 @@ const int tdsPin = 35;
 LiquidCrystal_I2C lcdDisplay(LCD_ADDR, LCD_COLUMNS, LCD_ROWS);
 
 // Water tank info
-int tankHeight = 65; // in cm
+int tankHeight = 387; // in cm
 int tankFreeHeight = 10;
 int usableTankHeight = tankHeight - tankFreeHeight;
 
@@ -42,19 +42,20 @@ bool ledGreenStatus = false;
 bool ledRedStatus = false;
 
 // System Control variables
-bool systemStatus = false; // default system status is on
+bool systemStatus = true; // default system status is on
 bool pumpStatus = false;
 bool pumpManualControlledStatus = false;
 
 String pumpControlMode = "automatic";
 
 // Wifi ssid and password
-const char* ssid = "SLT fibre";
-const char* password = "0912275170";
+//const char* ssid = "SLT fibre";
+// const char* password = "0912275170";
+const char* ssid = "Redmi Note 11";
+const char* password = "123456789" ;
 
 // Server ip
-const String serverUrl = "http://192.168.1.78:5000";
-
+const String serverUrl = "http://192.168.17.24:5000";
 
 #define HIGH 0x0;
 #define LOW 0x1;
@@ -96,7 +97,6 @@ void setup(){
 
 
 void displayStatus(){
-  Serial.println("###############################################");
   Serial.println("SystemStatus : " + String(systemStatus));
   Serial.println("-----------------------------------------------");
   Serial.println("pumpStatus : " + String(pumpStatus));
@@ -190,4 +190,3 @@ void loop(){
   
   delay(1000);
 }
-
