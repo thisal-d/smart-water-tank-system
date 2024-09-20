@@ -4,7 +4,7 @@ import time
 import threading
 
 
-SERVER = '192.168.17.185'
+SERVER = '192.168.17.24'
 PORT = 5000
 
 app = Flask("")
@@ -28,12 +28,8 @@ def track_device_status():
     global device_status
     while True:
         delay = time.time() - last_online_time
-        if delay < 0:
-            delay = delay * -1
-        if time.time() - last_online_time > 5:
-            device_status = 'Offline'
-        else:
-            device_status = 'Online'
+        if delay > 5:
+            device_status = False
         time.sleep(5)
         #print(device_status)
 
@@ -60,6 +56,9 @@ def get_manual_controlled_pump_Status():
                 
 @app.route('/get-system-status', methods=['GET'])
 def get_system_status():
+    global device_status, last_online_time
+    last_online_time = time.time() # get current time
+    device_status = True
     return {"system_status": system_state }
     
 
@@ -72,14 +71,16 @@ def get_status():
         'led_green_status': led_green_status,
         'led_red_status': led_red_status,
         'water_level': water_level,
-        'water_mgl_value': water_mgl_value
+        'water_mgl_value': water_mgl_value,
+        'pump_control_method': pump_control_method,
+        'pump_manual_controlled_status': pump_manual_controlled_status,
+        'device_status' : device_status
     }
 
 @app.route('/send-status', methods=['POST'])
 def send_status():
-    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_mgl_value, last_online_time
-    
-    last_online_time = time.time() # get current time
+    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_mgl_value
+
     data = request.get_json()
     buzzer_status = True if data['buzzer_status'] == "1" else False
     pump_status = True if data['pump_status'] == "1" else False
@@ -87,6 +88,7 @@ def send_status():
     led_red_status = True if data['led_red_status'] == "1" else False
     water_level = data['water_level']
     water_mgl_value = data['water_mgl_value']
+    
     return '', 204
 
 @app.route('/send-buzzer-status', methods=['POST'])
@@ -111,6 +113,17 @@ def turn_off_pump_manually():
     pump_manual_controlled_status = False
     return '', 204
 
+@app.route('/turn-off-system', methods=['POST'])
+def turn_off_system():
+    global system_state
+    system_state = False
+    return '', 204
+
+@app.route('/turn-on-system', methods=['POST'])
+def turn_on_system():
+    global system_state
+    system_state = True
+    return '', 204
 
 @app.route('/turn-on-automatic-pump-control-mode', methods=['POST'])
 def turn_off_manual_pump_activation():
