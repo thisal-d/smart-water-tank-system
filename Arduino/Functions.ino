@@ -3,7 +3,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Get distance to water using ultra sonic sensor
-long getDistanceToWater(int ultraSonicTrigPin, int ultraSonicEchoPin) {
+int getDistanceToWater(int ultraSonicTrigPin, int ultraSonicEchoPin) {
     digitalWrite(ultraSonicTrigPin, LOW);
     delayMicroseconds(2);
     digitalWrite(ultraSonicTrigPin, HIGH);
@@ -14,14 +14,65 @@ long getDistanceToWater(int ultraSonicTrigPin, int ultraSonicEchoPin) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Get water MGL
-long getWaterMglValue(int tdsPin){
-    long electricalConductivity = analogRead(tdsPin);
+int getWaterMglValue(int tdsPin){
+    int electricalConductivity = analogRead(tdsPin);
     return electricalConductivity;
 };
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Get water quality status
+String getWaterQualityUsingMglValue(long waterMglValue){
+  String waterQuality = "";
+  if (waterMglValue <= 50) waterQuality = "critical";
+  else if (waterMglValue <= 300) waterQuality = "good ";
+  else if (waterMglValue <= 600) waterQuality = "low";
+  else waterQuality = "critical";
+  return waterQuality;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Display LCD
+void displayValuesOnLCD(LiquidCrystal_I2C lcdDisplay, double waterLevelRate, int waterLevel, String waterQuality, int waterMglValue, bool pumpStatus, String pumpControlMode){
+  int changeDelay = 1000;
+  lcdDisplay.clear();
+
+  // Display water level
+  // Firs Row
+  lcdDisplay.setCursor(0, 0);
+  lcdDisplay.print("WATER LEVEL :");
+  // Second Row
+  lcdDisplay.setCursor(0, 1);
+  lcdDisplay.print((int)waterLevelRate);
+  lcdDisplay.print("%");
+  lcdDisplay.print(" ");
+  lcdDisplay.print(waterLevel);
+  lcdDisplay.print("CM");
+  delay(changeDelay);
+
+  // Display water quality
+  lcdDisplay.clear();
+  lcdDisplay.setCursor(0, 0);
+  lcdDisplay.print("WATER QUALITY :");
+  lcdDisplay.setCursor(0, 1);
+  lcdDisplay.print(waterQuality == "low" ? "LOW" : waterQuality == "critical" ?  "CRITICAL" : "GOOD");
+  lcdDisplay.print(" ");
+  lcdDisplay.print(waterMglValue);
+  lcdDisplay.print("MGL");
+  delay(changeDelay);
+
+  // Display pump status
+  lcdDisplay.clear();
+  lcdDisplay.setCursor(0, 0);
+  lcdDisplay.print("PUMP STATUS :");
+  lcdDisplay.setCursor(0, 1);
+  lcdDisplay.print(pumpControlMode == "manual" ? "MANUAL" : "AUTOMATIC");
+  lcdDisplay.print(" ");
+  lcdDisplay.print(pumpStatus? "ON" : "OFF");
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Send device status
-void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, bool pump_status, bool led_green_status, bool led_red_status,int water_level, int water_mgl_value){   
+void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, bool pump_status, bool led_green_status, bool led_red_status,int water_level, double water_level_rate, int water_mgl_value, String waterQuality){   
   HTTPClient http;
   http.begin(serverUrl+"/send-status");
   http.addHeader("Content-Type", "application/json");
@@ -32,6 +83,8 @@ void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, 
               + "\"led_green_status\":\"" + String(led_green_status) + "\","
               + "\"led_red_status\":\"" + String(led_red_status) + "\","
               + "\"water_level\":\"" + String(water_level) + "\","
+              + "\"water_level_rate\":\"" + String(water_level_rate) + "\","
+              + "\"water_quality\":\"" + String(waterQuality) + "\","
               + "\"water_mgl_value\":\"" + String(water_mgl_value) + "\"}";
 
   int httpResponseCode = http.POST(payLoad);
@@ -54,7 +107,7 @@ void sendBuzzerStatus(String serverUrl, bool buzzer_status){
   http.begin(serverUrl+"/send-buzzer-status");
   http.addHeader("Content-Type", "application/json");
 
-  String payLoad = "{\"buzzer_status\":\"" + String(buzzer_status) + "}";
+  String payLoad = "{\"buzzer_status\":\"" + String(buzzer_status) +"\"}";
 
   int httpResponseCode = http.POST(payLoad);
 
@@ -99,7 +152,7 @@ int getSystemStatus(String serverUrl){
 // Retrieve pump control method
 String getPumpControlMethod(String serverUrl){
   HTTPClient http;
-  http.begin(serverUrl + "/get-pump_control_method");
+  http.begin(serverUrl + "/get-pump-control-method");
   int httpResponseCode = http.GET();
   String pumpControlMethod;
   // httpResponseCode is the HTTP response code from the server. if it more than 0 then it was successful
@@ -169,7 +222,7 @@ void turnOnBuzzer(int waterLevel, int usableTankHeight, int buzzerPin, double wa
   }
   else if (waterLevel >= warningLevel2 * usableTankHeight) {
     delayTime = 400;
-    repeats = 2;
+    repeats = 3;
   }
   else if (waterLevel >= warningLevel1 * usableTankHeight) {
     delayTime = 800; 
