@@ -1,56 +1,157 @@
-body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
+}
+
+body {
     background-color: #f0f0f0;
+}
+
+.container {
+    background-image: url("imgs/bg.webp");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    height: 100vh;
     padding: 20px;
 }
-h1 {
+
+@media only screen and (max-width: 1000px) {
+    .container {
+        flex-direction: column;
+    }
+  }
+
+.title {
+    padding-top: 20px;
+    color: #5555FF;
+    font-size: 3rem;
     text-align: center;
-    color:#007bff;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-.status {
-    margin-bottom: 20px;
-    border: 2px dashed #007bff;
-    border-radius: 1rem;
+.status-container, .btn-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
     padding: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 5%;
 }
-.status p {
-    font-size: 1.2em;
-}
-.control {
+
+.status-container h2 {
+    font-size: 1.5rem;
+    color: #444;
     text-align: center;
     margin-bottom: 20px;
-}
-button {
-    border-radius: 8px;
-    font-size: 1em;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-button:hover {
-    background-color: #0056b3;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
 }
 
-.icon{
-    width: 40px;
-    height: 40px;
-    margin-right: 20px;
-}
-
-.status-container{
+.output-container {
     display: flex;
-    vertical-align: middle;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.main-div{
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+.output-container img {
+    width: 40px;
+    margin-right: 15px;
+}
+
+.water-status-title, .system-status-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    flex: 1;
+}
+
+.water-status-value, .system-status-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.btn-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.control-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.btn-text {
+    font-size: 1.2rem;
+    color: #444;
+    font-weight: bold;
+}
+
+.control-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #5555FF;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.6s;
+    height: fit-content;
+    width: 120px;
+}
+
+.control-button:hover {
+    background-color: #3333FF;
+    cursor: pointer;
+
+}
+
+.status-circle{
+    margin-left: 8px ;
+    width: 12px;
+    height: 12px;
+    background-color: #ff0000;
+    border-radius: 30px;
+}
+
+.system-status-subcontainer{
+    display: flex;
+    margin-bottom: 3px;
+    align-items: center;
+}
+
+.system-status-container{
+    background-color: #eeeeee;
+    width: 100%;
+    height: fit-content;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.system-status-title{
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.water-status-container{
+    background-color: rgba(50,50,255,0.2);
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
