@@ -4,14 +4,14 @@ import time
 import threading
 
 
-SERVER = '192.168.17.24'
+SERVER = '192.168.102.185'
 PORT = 5000
 
 app = Flask("")
 CORS(app)  # Enable CORS for all routes
 
 # System Initial status
-system_state = True
+system_state = False
 buzzer_status = False
 pump_status = False
 led_green_status = False
@@ -19,10 +19,27 @@ led_red_status = False
 pump_control_method = "automatic"
 pump_manual_controlled_status = False 
 water_level = 0
+water_level_rate = 0
 water_mgl_value = 0
-device_status = 0
+water_quality = "poor"
+device_status = False
 
 last_online_time = time.time() # get current time
+
+
+def print_status():
+    print("system_state :", system_state)
+    print("buzzer_status :", buzzer_status)
+    print("pump_status :", pump_status)
+    print("led_green_status :", led_green_status)
+    print("led_red_status :", led_red_status)
+    print("pump_control_method :", pump_control_method)
+    print("pump_manual_controlled_status :", pump_manual_controlled_status)
+    print("water_level :", water_level)
+    print("water_level_rate :",water_level_rate)
+    print("water_mgl_value :", water_mgl_value)
+    print("water_quality :", water_quality)
+    print("device_status :", device_status)
 
 def track_device_status():
     global device_status
@@ -33,17 +50,11 @@ def track_device_status():
         time.sleep(5)
         #print(device_status)
 
-@app.route('/get-device-status', methods=['GET'])
-def get_device_status():
-    return {
-        "device_status": device_status
-    }
 
-
-@app.route('/get-pump_control_method', methods=['GET'])
+@app.route('/get-pump-control-method', methods=['GET'])
 def get_pump_control_method():
     return {
-        "pump_control_method": pump_control_method,
+        'pump_control_method': pump_control_method,
     }
     
 
@@ -56,14 +67,14 @@ def get_manual_controlled_pump_Status():
                 
 @app.route('/get-system-status', methods=['GET'])
 def get_system_status():
-    global device_status, last_online_time
-    last_online_time = time.time() # get current time
-    device_status = True
-    return {"system_status": system_state }
+    return {
+        "system_status": system_state 
+    }
     
 
 @app.route('/get-status', methods=['GET'])
 def get_status():
+    print_status()
     return {
         'system_status': system_state,
         'buzzer_status': buzzer_status,
@@ -71,7 +82,9 @@ def get_status():
         'led_green_status': led_green_status,
         'led_red_status': led_red_status,
         'water_level': water_level,
+        'water_level_rate': water_level_rate,
         'water_mgl_value': water_mgl_value,
+        'water_quality' : water_quality,
         'pump_control_method': pump_control_method,
         'pump_manual_controlled_status': pump_manual_controlled_status,
         'device_status' : device_status
@@ -79,15 +92,22 @@ def get_status():
 
 @app.route('/send-status', methods=['POST'])
 def send_status():
-    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_mgl_value
-
+    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_level_rate, water_mgl_value, water_quality
+    
+    global device_status, last_online_time
+    last_online_time = time.time() # get current time
+    
+    device_status = True
     data = request.get_json()
     buzzer_status = True if data['buzzer_status'] == "1" else False
     pump_status = True if data['pump_status'] == "1" else False
     led_green_status = True if data['led_green_status'] == "1" else False
     led_red_status = True if data['led_red_status'] == "1" else False
-    water_level = data['water_level']
-    water_mgl_value = data['water_mgl_value']
+    water_level = int(data['water_level'])
+    water_level_rate = float(data['water_level_rate'])
+    water_mgl_value = int(data['water_mgl_value'])
+    water_quality = data['water_quality']
+    print_status()
     
     return '', 204
 
