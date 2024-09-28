@@ -34,7 +34,7 @@ String getWaterQualityUsingMglValue(long waterMglValue){
   String waterQuality = "";
   if (waterMglValue <= 50) waterQuality = "critical";
   else if (waterMglValue <= 300) waterQuality = "good ";
-  else if (waterMglValue <= 600) waterQuality = "low";
+  else if (waterMglValue <= 600) waterQuality = "poor";
   else waterQuality = "critical";
   return waterQuality;
 }
