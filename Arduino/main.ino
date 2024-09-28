@@ -24,9 +24,9 @@ const int tdsPin = 35;
 LiquidCrystal_I2C lcdDisplay(LCD_ADDR, LCD_COLUMNS, LCD_ROWS);
 
 // Water tank info
-int tankHeight = 314; // in cm
-int tankFreeHeight = 10;
-int usableTankHeight = tankHeight - tankFreeHeight;
+long tankHeight = 314; // in cm
+long tankFreeHeight = 10;
+long usableTankHeight = tankHeight - tankFreeHeight;
 
 double refillActivationPercentage = 0.5; // in %
 double warningLevel1 = 0.8;
@@ -35,9 +35,9 @@ double warningLevel3 = 1.0;
 double waterLevelRate = 0.0;
 
 // Capture status
-int waterLevel = 0;
+long waterLevel = 0;
 int waterMglValue = 0;
-int distanceToWater = 0;
+long distanceToWater = 0;
 bool buzzerStatus =  false;
 bool ledGreenStatus = false;
 bool ledRedStatus = false;
@@ -56,7 +56,7 @@ const char* ssid = "Redmi Note 11";
 const char* password = "123456789";
 
 // Server ip
-const String serverUrl = "http://192.168.185.185:5000";
+const String serverUrl = "http://192.168.55.185:5000";
 
 #define HIGH 0x0;
 #define LOW 0x1;
@@ -138,9 +138,7 @@ void loop(){
   if (systemStatusTemp != 2){ // Get status from server
       systemStatus = (systemStatusTemp == 1) ? true: false;
   }
-  // Send data to server
-  sendDeviceStatus(serverUrl, systemStatus, buzzerStatus, pumpStatus, ledGreenStatus, ledRedStatus, waterLevel, waterLevelRate, waterMglValue, waterQuality);
-  
+
   if (!systemStatus){
     turnOffDevice(ledRedPin, ledRedStatus);
     turnOffDevice(ledGreenPin, ledGreenStatus);
@@ -159,6 +157,9 @@ void loop(){
     turnOnDevice(ledRedPin, ledRedStatus);
     delay(1000);
   }
+
+    // Send data to server
+  sendDeviceStatus(serverUrl, systemStatus, buzzerStatus, pumpStatus, ledGreenStatus, ledRedStatus, waterLevel, waterLevelRate, waterMglValue, waterQuality);
 
   // If system in turn on
   turnOnDevice(ledRedPin, ledGreenStatus);
