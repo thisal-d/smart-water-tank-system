@@ -58,8 +58,6 @@ const char* password = "123456789";
 // Server ip
 const String serverUrl = "http://192.168.55.185:5000";
 
-#define HIGH 0x0;
-#define LOW 0x1;
 
 void setup(){
   // Initialize lcd display
@@ -127,6 +125,7 @@ void displayStatus(){
   Serial.println("Distance To Water : " + String(distanceToWater));
   Serial.println("Water Refilling : " + String(waterRefilling));
   Serial.println("Water Filled Rate : " + String(waterLevelRate));
+  Serial.println("Water Quality : " + waterQuality);
 }
 
 void loop(){
