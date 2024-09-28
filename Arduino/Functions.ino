@@ -3,19 +3,28 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Get distance to water using ultra sonic sensor
-int getDistanceToWater(int ultraSonicTrigPin, int ultraSonicEchoPin) {
-    digitalWrite(ultraSonicTrigPin, LOW);
-    delayMicroseconds(2);
-    digitalWrite(ultraSonicTrigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(ultraSonicTrigPin, LOW);
-    return (pulseIn(ultraSonicEchoPin, HIGH) / 2) / 29.1;
+long getDistanceToWater(long ultraSonicTrigPin, long ultraSonicEchoPin) {
+  // Send a pulse to trigger
+  digitalWrite(ultraSonicTrigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(ultraSonicTrigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(ultraSonicTrigPin, LOW);
+
+  // Measure the duration of the pulse
+  long duration = pulseIn(ultraSonicEchoPin, HIGH);
+
+  // Convert duration to distance in cm
+  long distance = (duration / 2) / 29.1;
+
+  return distance;
+
   };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Get water MGL
-int getWaterMglValue(int tdsPin){
-    int electricalConductivity = analogRead(tdsPin);
+long getWaterMglValue(long tdsPin){
+    long electricalConductivity = analogRead(tdsPin);
     return electricalConductivity;
 };
 
@@ -32,8 +41,8 @@ String getWaterQualityUsingMglValue(long waterMglValue){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Display LCD
-void displayValuesOnLCD(LiquidCrystal_I2C lcdDisplay, double waterLevelRate, int waterLevel, String waterQuality, int waterMglValue, bool pumpStatus, String pumpControlMode){
-  int changeDelay = 1000;
+void displayValuesOnLCD(LiquidCrystal_I2C lcdDisplay, double waterLevelRate, long waterLevel, String waterQuality, long waterMglValue, bool pumpStatus, String pumpControlMode){
+  long changeDelay = 1000;
   lcdDisplay.clear();
 
   // Display water level
@@ -42,7 +51,7 @@ void displayValuesOnLCD(LiquidCrystal_I2C lcdDisplay, double waterLevelRate, int
   lcdDisplay.print("WATER LEVEL :");
   // Second Row
   lcdDisplay.setCursor(0, 1);
-  lcdDisplay.print((int)waterLevelRate);
+  lcdDisplay.print((long)waterLevelRate);
   lcdDisplay.print("%");
   lcdDisplay.print(" ");
   lcdDisplay.print(waterLevel);
@@ -72,7 +81,7 @@ void displayValuesOnLCD(LiquidCrystal_I2C lcdDisplay, double waterLevelRate, int
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Send device status
-void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, bool pump_status, bool led_green_status, bool led_red_status,int water_level, double water_level_rate, int water_mgl_value, String waterQuality){   
+void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, bool pump_status, bool led_green_status, bool led_red_status,long water_level, double water_level_rate, long water_mgl_value, String waterQuality){   
   HTTPClient http;
   http.begin(serverUrl+"/send-status");
   http.addHeader("Content-Type", "application/json");
@@ -87,7 +96,7 @@ void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, 
               + "\"water_quality\":\"" + String(waterQuality) + "\","
               + "\"water_mgl_value\":\"" + String(water_mgl_value) + "\"}";
 
-  int httpResponseCode = http.POST(payLoad);
+  long httpResponseCode = http.POST(payLoad);
 
   if (httpResponseCode > 0) {
     String response = http.getString();
@@ -109,7 +118,7 @@ void sendBuzzerStatus(String serverUrl, bool buzzer_status){
 
   String payLoad = "{\"buzzer_status\":\"" + String(buzzer_status) +"\"}";
 
-  int httpResponseCode = http.POST(payLoad);
+  long httpResponseCode = http.POST(payLoad);
 
   if (httpResponseCode > 0) {
     String response = http.getString();
@@ -125,11 +134,11 @@ void sendBuzzerStatus(String serverUrl, bool buzzer_status){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Retrieve system status
-int getSystemStatus(String serverUrl){
+long getSystemStatus(String serverUrl){
     HTTPClient http;
     http.begin(serverUrl + "/get-system-status");
-    int httpResponseCode = http.GET();
-    int system_status;
+    long httpResponseCode = http.GET();
+    long system_status;
     // httpResponseCode is the HTTP response code from the server. if it more than 0 then it was successful
     if  (httpResponseCode>0){
         //Serial.println("Request Success : " + String(httpResponseCode));
@@ -137,7 +146,7 @@ int getSystemStatus(String serverUrl){
         //Serial.println(payload);
         DynamicJsonDocument jsonObj(1024);
         deserializeJson(jsonObj, payload);
-        system_status = jsonObj["system_status"].as<int>();
+        system_status = jsonObj["system_status"].as<long>();
         //Serial.println(system_status);
     }
     else{
@@ -153,7 +162,7 @@ int getSystemStatus(String serverUrl){
 String getPumpControlMethod(String serverUrl){
   HTTPClient http;
   http.begin(serverUrl + "/get-pump-control-method");
-  int httpResponseCode = http.GET();
+  long httpResponseCode = http.GET();
   String pumpControlMethod;
   // httpResponseCode is the HTTP response code from the server. if it more than 0 then it was successful
   if  (httpResponseCode>0){
@@ -174,18 +183,18 @@ String getPumpControlMethod(String serverUrl){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Retrieve pump manual controlled status
-int getPumpManualControlledStatus(String serverUrl){
+long getPumpManualControlledStatus(String serverUrl){
   HTTPClient http;
   http.begin(serverUrl + "/get-pump-manual-controlled-status");
-  int httpResponseCode = http.GET();
-  int pumpStatus;
+  long httpResponseCode = http.GET();
+  long pumpStatus;
   // httpResponseCode is the HTTP response code from the server. if it more than 0 then it was successful
   if  (httpResponseCode>0){
       String payload = http.getString();
       //Serial.println(payload);
       DynamicJsonDocument jsonObj(1024);
       deserializeJson(jsonObj, payload);
-      pumpStatus = jsonObj["pump_manual_controlled_status"].as<int>();
+      pumpStatus = jsonObj["pump_manual_controlled_status"].as<long>();
       //Serial.println(pumpStatus);
       http.end();
   }
@@ -199,23 +208,23 @@ int getPumpManualControlledStatus(String serverUrl){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Power on device and change the status of device to True
-void turnOnDevice(int devicePin, bool &deviceStatus){
+void turnOnDevice(long devicePin, bool &deviceStatus){
   digitalWrite(devicePin, LOW);
   deviceStatus = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Power off device and change the status of device to False
-void turnOffDevice(int devicePin, bool &deviceStatus){
+void turnOffDevice(long devicePin, bool &deviceStatus){
   digitalWrite(devicePin, HIGH);
   deviceStatus = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Handle the buzzer sound effects
-void turnOnBuzzer(int waterLevel, int usableTankHeight, int buzzerPin, double warningLevel1, double warningLevel2, double warningLevel3){
-  int delayTime = 0;
-  int repeats = 0;
+void turnOnBuzzer(long waterLevel, long usableTankHeight, long buzzerPin, double warningLevel1, double warningLevel2, double warningLevel3){
+  long delayTime = 0;
+  long repeats = 0;
   if (waterLevel >= warningLevel3 * usableTankHeight) 
     {delayTime = 100; 
     repeats = 5;
@@ -228,7 +237,7 @@ void turnOnBuzzer(int waterLevel, int usableTankHeight, int buzzerPin, double wa
     delayTime = 800; 
     repeats = 1;
   } 
-  for (int i=0; i<repeats; i++){
+  for (long i=0; i<repeats; i++){
     digitalWrite(buzzerPin, LOW);
     delay(delayTime);
     digitalWrite(buzzerPin, HIGH);
