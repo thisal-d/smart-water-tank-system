@@ -19,7 +19,7 @@ long getDistanceToWater(long ultraSonicTrigPin, long ultraSonicEchoPin) {
 
   return distance;
 
-  };
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Get water MGL
