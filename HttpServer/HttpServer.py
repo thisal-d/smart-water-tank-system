@@ -20,7 +20,6 @@ pump_control_method = "automatic"
 pump_manual_controlled_status = False 
 water_level = 0
 water_level_rate = 0
-water_mgl_value = 0
 water_quality = "poor"
 device_status = False
 tank_height = 0
@@ -39,7 +38,6 @@ def print_status():
     print("water_level :", water_level)
     print("tank_height:", tank_height)
     print("water_level_rate :",water_level_rate)
-    print("water_mgl_value :", water_mgl_value)
     print("water_quality :", water_quality)
     print("device_status :", device_status)
 
@@ -86,7 +84,6 @@ def get_status():
         'water_level': water_level,
         'water_level_rate': water_level_rate,
         'tank_height': tank_height,
-        'water_mgl_value': water_mgl_value,
         'water_quality' : water_quality,
         'pump_control_method': pump_control_method,
         'pump_manual_controlled_status': pump_manual_controlled_status,
@@ -95,7 +92,7 @@ def get_status():
 
 @app.route('/send-status', methods=['POST'])
 def send_status():
-    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_level_rate, water_mgl_value, water_quality, tank_height
+    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_level_rate, water_quality, tank_height
     
     global device_status, last_online_time
     last_online_time = time.time() # get current time
@@ -109,7 +106,6 @@ def send_status():
     water_level = int(data['water_level'])
     tank_height = int(data['tank_height'])
     water_level_rate = float(data['water_level_rate'])
-    water_mgl_value = int(data['water_mgl_value'])
     water_quality = data['water_quality']
     print_status()
     
