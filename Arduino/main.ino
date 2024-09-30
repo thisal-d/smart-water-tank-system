@@ -36,7 +36,7 @@ double waterLevelRate = 0.0;
 
 // Capture status
 long waterLevel = 0;
-int waterMglValue = 0;
+long waterMglValue = 0;
 long distanceToWater = 0;
 bool buzzerStatus =  false;
 bool ledGreenStatus = false;
@@ -157,18 +157,19 @@ void loop(){
     delay(1000);
   }
 
-    // Send data to server
-  sendDeviceStatus(serverUrl, systemStatus, buzzerStatus, pumpStatus, ledGreenStatus, ledRedStatus, waterLevel, waterLevelRate, waterMglValue, waterQuality);
+  // Send data to server
+  sendDeviceStatus(serverUrl, systemStatus, buzzerStatus, pumpStatus, ledGreenStatus, ledRedStatus, waterLevel, waterLevelRate, usableTankHeight, waterQuality);
 
   // If system in turn on
   turnOnDevice(ledRedPin, ledGreenStatus);
 
-  waterMglValue = getWaterMglValue(tdsPin);
-  distanceToWater = getDistanceToWater(ultraSonicTrigPin, ultraSonicEchoPin);
+  waterMglValue = getWaterMglValue(tdsPin); // get the tds / mgl value of water
+  waterQuality = getWaterQualityUsingMglValue(waterMglValue); // get the quality using tds / mgl value
+
+  distanceToWater = getDistanceToWater(ultraSonicTrigPin, ultraSonicEchoPin); // get distance to the 
   waterLevel = tankHeight - distanceToWater;
   waterLevelRate = (double)waterLevel/usableTankHeight*100;
 
-  waterQuality = getWaterQualityUsingMglValue(waterMglValue);
 
   // Display on LCD
   displayValuesOnLCD(lcdDisplay, waterLevelRate, waterLevel, waterQuality, waterMglValue, pumpStatus, pumpControlMode);
