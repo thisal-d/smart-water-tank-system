@@ -18,7 +18,6 @@ long getDistanceToWater(long ultraSonicTrigPin, long ultraSonicEchoPin) {
   long distance = (duration / 2) / 29.1;
 
   return distance;
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
