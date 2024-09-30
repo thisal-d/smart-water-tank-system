@@ -24,13 +24,13 @@ const OPACITY_ACTIVE = 1;
 
 export default function App() {
   // Device functions status indicator
-  const [systemStatus, setSystemStatus] = useState(true);
+  const [systemStatus, setSystemStatus] = useState(false);
   const [buzzerStatus, setBuzzerStatus] = useState(false);
   const [pumpStatus, setPumpStatus] = useState(false);
   const [waterLevelRate, setWaterLevelRate] = useState(0);
   const [waterLevel, setWaterLevel] = useState('0');
   const [tankHeight, setTankHeight] = useState(0);
-  const [waterQuality, setWaterQuality] = useState("good");
+  const [waterQuality, setWaterQuality] = useState("critical");
   const [pumpControlMode, setPumpControlMethod] = useState("automatic");
   const [pumpManualControlledStatus, setPumpManualControlledStatus] = useState(false);
 
