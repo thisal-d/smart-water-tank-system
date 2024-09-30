@@ -80,7 +80,7 @@ void displayValuesOnLCD(LiquidCrystal_I2C lcdDisplay, double waterLevelRate, lon
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Send device status
-void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, bool pump_status, bool led_green_status, bool led_red_status,long water_level, double water_level_rate, long water_mgl_value, String waterQuality){   
+void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, bool pump_status, bool led_green_status, bool led_red_status,long water_level, double water_level_rate, long tankHeight, String waterQuality){   
   HTTPClient http;
   http.begin(serverUrl+"/send-status");
   http.addHeader("Content-Type", "application/json");
@@ -93,7 +93,7 @@ void sendDeviceStatus(String serverUrl, bool system_status, bool buzzer_status, 
               + "\"water_level\":\"" + String(water_level) + "\","
               + "\"water_level_rate\":\"" + String(water_level_rate) + "\","
               + "\"water_quality\":\"" + String(waterQuality) + "\","
-              + "\"water_mgl_value\":\"" + String(water_mgl_value) + "\"}";
+              + "\"tank_height\":\"" + String(tankHeight) + "\"}";
 
   long httpResponseCode = http.POST(payLoad);
 
