@@ -9,7 +9,7 @@ import {
   ImageBackground
 } from 'react-native';
 
-const SERVER = "http://192.168.102.185";
+const SERVER = "http://192.168.55.185";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -29,12 +29,12 @@ export default function App() {
   const [pumpStatus, setPumpStatus] = useState(false);
   const [waterLevelRate, setWaterLevelRate] = useState(0);
   const [waterLevel, setWaterLevel] = useState('0');
-  const [waterMglValue, setWaterMglValue] = useState(0);
+  const [tankHeight, setTankHeight] = useState(0);
   const [waterQuality, setWaterQuality] = useState("good");
   const [pumpControlMode, setPumpControlMethod] = useState("automatic");
   const [pumpManualControlledStatus, setPumpManualControlledStatus] = useState(false);
 
-  // Device and Server indicator status track, default 'Checking'.
+  // Device and Server indicator status track, default is null :  'Checking'.
   const [serverConnectionStatus, setServerConnectionStatus] = useState(null);
   const [deviceStatus, setDeviceStatus] = useState(null);
   
@@ -55,10 +55,10 @@ export default function App() {
       setSystemStatus(data["system_status"]);
       setBuzzerStatus(data["buzzer_status"]);
       setPumpStatus(data["pump_status"]);
-      setWaterMglValue(data["water_mgl_value"]);
       setWaterLevel(data["water_level"]);
       setWaterQuality(data["water_quality"]);
       setWaterLevelRate(data["water_level_rate"]);
+      setTankHeight(data["tank_height"])
       setPumpControlMethod(data["pump_control_method"]);
       setPumpManualControlledStatus(data['pump_manual_controlled_status']);
       setServerConnectionStatus(true);
@@ -117,7 +117,7 @@ export default function App() {
     }
   }
 
-
+  // Call fetchStatus function every 1 second
   useEffect(() => {
     const interval = setInterval(() => {
       fetchStatus();
@@ -161,7 +161,7 @@ export default function App() {
                   </Text>
                 </View>
                 
-                <Text style={styles.waterStatus}>Values : {waterLevel} cm | {waterMglValue} Mgl</Text>
+                <Text style={styles.waterStatus}>Water Level : {waterLevel} cm / {tankHeight} cm</Text>
 
               </View>
               
