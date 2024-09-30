@@ -23,6 +23,7 @@ water_level_rate = 0
 water_mgl_value = 0
 water_quality = "poor"
 device_status = False
+tank_height = 0
 
 last_online_time = time.time() # get current time
 
@@ -36,6 +37,7 @@ def print_status():
     print("pump_control_method :", pump_control_method)
     print("pump_manual_controlled_status :", pump_manual_controlled_status)
     print("water_level :", water_level)
+    print("tank_height:", tank_height)
     print("water_level_rate :",water_level_rate)
     print("water_mgl_value :", water_mgl_value)
     print("water_quality :", water_quality)
@@ -83,6 +85,7 @@ def get_status():
         'led_red_status': led_red_status,
         'water_level': water_level,
         'water_level_rate': water_level_rate,
+        'tank_height': tank_height,
         'water_mgl_value': water_mgl_value,
         'water_quality' : water_quality,
         'pump_control_method': pump_control_method,
@@ -92,7 +95,7 @@ def get_status():
 
 @app.route('/send-status', methods=['POST'])
 def send_status():
-    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_level_rate, water_mgl_value, water_quality
+    global buzzer_status, pump_status, led_green_status, led_red_status, water_level, water_level_rate, water_mgl_value, water_quality, tank_height
     
     global device_status, last_online_time
     last_online_time = time.time() # get current time
@@ -104,6 +107,7 @@ def send_status():
     led_green_status = True if data['led_green_status'] == "1" else False
     led_red_status = True if data['led_red_status'] == "1" else False
     water_level = int(data['water_level'])
+    tank_height = int(data['tank_height'])
     water_level_rate = float(data['water_level_rate'])
     water_mgl_value = int(data['water_mgl_value'])
     water_quality = data['water_quality']
@@ -151,6 +155,8 @@ def turn_off_manual_pump_activation():
     pump_control_method = "automatic"
     return '', 204
 
+
+# Run device status tracker as different thread
 device_status_track_thread = threading.Thread(target=track_device_status, daemon=True)
 device_status_track_thread.start()
 
