@@ -9,7 +9,7 @@ import {
   ImageBackground
 } from 'react-native';
 
-const SERVER = "http://192.168.55.185";
+const SERVER = "http://192.168.25.185";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   appTitle: {
+    marginTop: -60,
     fontSize: 33,
     fontFamily: '',
     textAlign: 'center',
