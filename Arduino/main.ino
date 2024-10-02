@@ -5,10 +5,10 @@
 #include "Functions.ino"
 
 // Pin Definitions
-const int warerPumpPin = 4;
+const int warerPumpPin = 14;
 const int ledRedPin = 13;
-const int buzzerPin = 14;
-const int ledGreenPin = 25;
+const int buzzerPin = 25;
+const int ledGreenPin = 12;
 const int ultraSonicTrigPin = 26;
 const int ultraSonicEchoPin = 27;
 const int tdsPin = 35;
@@ -24,8 +24,8 @@ const int tdsPin = 35;
 LiquidCrystal_I2C lcdDisplay(LCD_ADDR, LCD_COLUMNS, LCD_ROWS);
 
 // Water tank info
-long tankHeight = 314; // in cm
-long tankFreeHeight = 10;
+long tankHeight = 30; // in cm
+long tankFreeHeight = 5;
 long usableTankHeight = tankHeight - tankFreeHeight;
 
 double refillActivationPercentage = 0.5; // in %
@@ -52,11 +52,11 @@ bool pumpManualControlledStatus = false;
 String pumpControlMode = "automatic";
 
 // Wifi ssid and password
-const char* ssid = "Redmi Note 11";
-const char* password = "123456789";
+const char* ssid = "dulu's A34";
+const char* password = "12345678";
 
 // Server ip
-const String serverUrl = "http://192.168.55.185:5000";
+const String serverUrl = "http://192.168.115.185:5000";
 
 
 void setup(){
