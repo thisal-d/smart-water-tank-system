@@ -24,8 +24,8 @@ const int tdsPin = 35;
 LiquidCrystal_I2C lcdDisplay(LCD_ADDR, LCD_COLUMNS, LCD_ROWS);
 
 // Water tank info
-long tankHeight = 30; // in cm
-long tankFreeHeight = 5;
+long tankHeight = 315; // in cm
+long tankFreeHeight = 10;
 long usableTankHeight = tankHeight - tankFreeHeight;
 
 double refillActivationPercentage = 0.5; // in %
@@ -52,11 +52,11 @@ bool pumpManualControlledStatus = false;
 String pumpControlMode = "automatic";
 
 // Wifi ssid and password
-const char* ssid = "dulu's A34";
-const char* password = "12345678";
+const char* ssid = "Redmi Note 11";
+const char* password = "123456789";
 
 // Server ip
-const String serverUrl = "http://192.168.115.185:5000";
+const String serverUrl = "http://192.168.254.185:5000";
 
 
 void setup(){
