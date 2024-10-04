@@ -148,7 +148,7 @@ long getSystemStatus(String serverUrl){
         //Serial.println(system_status);
     }
     else{
-        //Serial.println("Request Failed : " + String(httpResponseCode));
+        Serial.println("Request Failed : " + String(httpResponseCode));
         system_status = 2;
     }
     http.end();
@@ -207,14 +207,14 @@ long getPumpManualControlledStatus(String serverUrl){
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Power on device and change the status of device to True
 void turnOnDevice(long devicePin, bool &deviceStatus){
-  digitalWrite(devicePin, LOW);
+  digitalWrite(devicePin, HIGH);
   deviceStatus = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Power off device and change the status of device to False
 void turnOffDevice(long devicePin, bool &deviceStatus){
-  digitalWrite(devicePin, HIGH);
+  digitalWrite(devicePin, LOW);
   deviceStatus = false;
 }
 
@@ -236,9 +236,9 @@ void turnOnBuzzer(long waterLevel, long usableTankHeight, long buzzerPin, double
     repeats = 1;
   } 
   for (long i=0; i<repeats; i++){
-    digitalWrite(buzzerPin, LOW);
-    delay(delayTime);
     digitalWrite(buzzerPin, HIGH);
+    delay(delayTime);
+    digitalWrite(buzzerPin, LOW);
     delay(delayTime);
   }
 }
