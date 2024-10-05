@@ -31,7 +31,7 @@ long getWaterMglValue(long tdsPin){
 // Get water quality status
 String getWaterQualityUsingMglValue(long waterMglValue){
   String waterQuality = "";
-  if (waterMglValue <= 300) waterQuality = "good ";
+  if (waterMglValue <= 300) waterQuality = "good";
   else if (waterMglValue <= 600) waterQuality = "poor";
   else waterQuality = "critical";
   return waterQuality;
