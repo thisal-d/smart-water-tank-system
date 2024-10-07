@@ -6,10 +6,11 @@ import {
   ScrollView,
   Image,
   TouchableOpacity, 
-  ImageBackground
+  ImageBackground,
+  TextInput
 } from 'react-native';
 
-const SERVER = "http://192.168.25.185";
+const SERVER = "http://192.168.133.185";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
@@ -72,7 +73,7 @@ export default function App() {
   // Handle the system turn on and off
   const systemTurnOnOff = async () => {
     try {
-      const response = await fetch(`${SERVER_URL}/get-system-status`);
+      const response = await fetchWithTimeout(`${SERVER_URL}/get-system-control-status`);
       const data = await response.json();
       let currentSystemStatus = data["system_status"];
       let requestUrl = currentSystemStatus? "turn-off-system" : "turn-on-system";
@@ -92,17 +93,14 @@ export default function App() {
   const changePumpControlMode = async () => {
     try{
       // Get Current Pump Control Mode
-      const response = await fetch(`${SERVER_URL}/get-pump-control-method`);
-      const data1 = await response.json()
-      let currentPumpControlMode = data1["pump_control_method"];
-
-      const response2 = await fetch(`${SERVER_URL}/get-pump-manual-controlled-status`);
-      const data2 = await response2.json();
-      let currentPumpManualControlledStatus = data2["pump_manual_controlled_status"];
+      const response = await fetchWithTimeout(`${SERVER_URL}/get-system-control-status`);
+      const data = await response.json()
+      let currentPumpControlMode = data["pump_control_method"];
+      let currentPumpManualControlledStatus = data["pump_manual_controlled_status"];
 
       let requestUlr = '';
-      if (currentPumpControlMode=="automatic") requestUlr = 'turn-on-pump-manually';
-      else if (currentPumpControlMode=="manual" && currentPumpManualControlledStatus) requestUlr = 'turn-off-pump-manually';
+      if (currentPumpControlMode=='automatic') requestUlr = 'turn-on-pump-manually';
+      else if (currentPumpControlMode=='manual' && currentPumpManualControlledStatus) requestUlr = 'turn-off-pump-manually';
       else requestUlr = 'turn-on-automatic-pump-control-mode';
       
       // Control the pump
@@ -111,9 +109,8 @@ export default function App() {
       } catch (error) {
         console.log('Pump Control Error (Send Data):', error);
       }
-   
     } catch (error) {
-      console.log('Pump Control Error (Request Data) :', error);
+      console.log('Pump Control Error :', error);
     }
   }
 
@@ -232,7 +229,7 @@ export default function App() {
               <View style={[styles.statusCircle, {backgroundColor: deviceStatus === null ? GREY :deviceStatus ? GREEN : RED}]}></View>
             </View> 
           </View>
-         
+
         </ImageBackground>
       </View>
     </ScrollView>
