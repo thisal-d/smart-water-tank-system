@@ -1,4 +1,6 @@
-const SERVER_URL = 'http://192.168.55.185:5000';
+const SERVER = "http://192.168.133.185";
+const PORT_ADDRESS = ':5000';
+const SERVER_URL = SERVER + PORT_ADDRESS;
 
 const waterLevelRateEl = document.getElementById("water-level-rate-value");
 const waterQualityEL = document.getElementById("water-quality-value");
@@ -21,7 +23,7 @@ let waterLevelRate = 0.0;
 let waterQuality = "critical";
 let deviceStatus = null;
 let serverConnectionStatus = false;
-let pumpControlMode = "automatic";
+let pumpControlMode = 'automatic';
 
 const RED = "#FF0000"; 
 const GREEN = "#00FF00";
@@ -35,17 +37,14 @@ const OPACITY_ACTIVE = 1;
 const changePumpControlMode = async () => {
     try{
         // Get Current Pump Control Mode
-        const response = await fetch(`${SERVER_URL}/get-pump-control-method`);
-        const data1 = await response.json()
-        let currentPumpControlMode = data1["pump_control_method"];
-
-        const response2 = await fetch(`${SERVER_URL}/get-pump-manual-controlled-status`);
-        const data2 = await response2.json();
-        let currentPumpManualControlledStatus = data2["pump_manual_controlled_status"];
+        const response = await fetch(`${SERVER_URL}/get-system-control-status`);
+        const data = await response.json()
+        let currentPumpControlMode = data["pump_control_method"];
+        let currentPumpManualControlledStatus = data["pump_manual_controlled_status"];
 
         let requestUlr = '';
-        if (currentPumpControlMode=="automatic") requestUlr = 'turn-on-pump-manually';
-        else if (currentPumpControlMode=="manual" && currentPumpManualControlledStatus) requestUlr = 'turn-off-pump-manually';
+        if (currentPumpControlMode=='automatic') requestUlr = 'turn-on-pump-manually';
+        else if (currentPumpControlMode=='manual' && currentPumpManualControlledStatus) requestUlr = 'turn-off-pump-manually';
         else requestUlr = 'turn-on-automatic-pump-control-mode';
         
         // Control the pump
@@ -56,14 +55,14 @@ const changePumpControlMode = async () => {
         }
 
     } catch (error) {
-        console.log('Pump Control Error (Request Data) :', error);
+        console.log('Pump Control Error :', error);
     }
 }
 
 // Handle the system turn on and off
 const systemTurnOnOff = async () => {
     try {
-        const response = await fetch(`${SERVER_URL}/get-system-status`);
+        const response = await fetch(`${SERVER_URL}/get-system-control-status`);
         const data = await response.json();
         let currentSystemStatus = data["system_status"];
         let requestUrl = currentSystemStatus? "turn-off-system" : "turn-on-system";
@@ -98,18 +97,14 @@ const updateUi = () => {
     if (deviceStatus) deviceStatusCircleEl.style.backgroundColor = GREEN;
     else if (deviceStatus==false) deviceStatusCircleEl.style.backgroundColor = RED;
     else deviceStatusCircleEl.style.backgroundColor = GREY;
-
-    if (deviceStatus) 
-
-    console.log(deviceStatus);
     
 
     if (serverConnectionStatus==true) serverConnectionStatusCircleEl.style.backgroundColor = GREEN;
     else if (serverConnectionStatus==false) serverConnectionStatusCircleEl.style.backgroundColor = RED;
     else serverConnectionStatusCircleEl.style.backgroundColor = GREY;
 
-    if (pumpControlMode=="automatic") pumpControlButton.textContent = "Manual/On";
-    else if (pumpControlMode="manual" && pumpManualCrontrolledStatus==true) pumpControlButton.textContent = "Manual/Off";
+    if (pumpControlMode=='automatic') pumpControlButton.textContent = "Manual/On";
+    else if (pumpControlMode=='manual' && pumpManualCrontrolledStatus==true) pumpControlButton.textContent = "Manual/Off";
     else pumpControlButton.textContent = "Automatic";
 
     if (systemStates) systemControlButton.textContent = "OFF";
