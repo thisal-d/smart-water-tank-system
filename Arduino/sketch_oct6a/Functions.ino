@@ -118,7 +118,6 @@ void sendBuzzerStatus(String serverUrl, bool buzzer_status){
   HTTPClient http;
   http.begin(serverUrl+"/send-buzzer-status");
   http.addHeader("Content-Type", "application/json");
-
   String payLoad = "{\"buzzer_status\":\"" + String(buzzer_status) +"\"}";
 
   int httpResponseCode = http.POST(payLoad);
@@ -171,10 +170,9 @@ void turnOffDevice(int devicePin, bool &deviceStatus){
 // Handle the buzzer sound effects
 void turnOnBuzzer(int waterLevel, int usableTankHeight, int buzzerPin, double warningLevel1, double warningLevel2, double warningLevel3){
   int delayTime = 0;
-  int delayTime2 = 0;
   int repeats = 0;
-  if (waterLevel >= warningLevel3 * usableTankHeight) 
-    {delayTime = 100; 
+  if (waterLevel >= warningLevel3 * usableTankHeight) {
+    delayTime = 100; 
     repeats = 5;
   }
   else if (waterLevel >= warningLevel2 * usableTankHeight) {
@@ -189,7 +187,7 @@ void turnOnBuzzer(int waterLevel, int usableTankHeight, int buzzerPin, double wa
     digitalWrite(buzzerPin, HIGH);
     delay(delayTime);
     digitalWrite(buzzerPin, LOW);
-    if (i!=repeats) delay(delayTime2); // Only delay if loops working, no waiting time if last loop time
+    if (i!=repeats) delay(delayTime); // Only delay if loops working, no waiting time if last loop time
   }
 }
 
