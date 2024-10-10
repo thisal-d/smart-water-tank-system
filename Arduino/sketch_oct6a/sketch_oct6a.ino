@@ -44,7 +44,7 @@ bool waterRefilling = false;
 String waterQuality = "";
 
 // System Control variables
-bool systemStatus = false; // default system status is on
+bool systemStatus = false; // default system status is Off
 bool pumpStatus = false;
 bool pumpManualControlledStatus = false;
 
