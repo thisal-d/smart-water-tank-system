@@ -74,3 +74,15 @@ This project involves an Arduino-based water level monitoring system that uses a
     ```bash
     npx expo start
     ```
+
+### Contributors
+
+<!-- Contributor 1 -->
+- [![DTD1234567's GitHub profile](https://github.com/DTD1234567.png?size=50)](https://github.com/DTD1234567)
+[DTD1234567](https://github.com/DTD1234567)
+
+<!-- Contributor 2 -->
+- [![Loda990's GitHub profile](https://github.com/Loda990.png?size=50)](https://github.com/Loda990)
+[Loda990](https://github.com/Loda990)
+
+
