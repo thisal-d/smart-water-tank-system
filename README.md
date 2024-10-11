@@ -78,13 +78,13 @@ This project involves an Arduino-based water level monitoring system that uses a
 ### Contributors
 
 <!-- Contributor 1 -->
-<a href="https://github.com/DTD1234567" target="_blank">
+- <a href="https://github.com/DTD1234567" target="_blank">
     <img src="https://github.com/DTD1234567.png" width="20" height="20" alt="DTD1234567's GitHub profile" />
     DTD1234567
 </a>
 
 <!-- Contributor 2 -->
-<a href="https://github.com/Loda990" target="_blank">
+- <a href="https://github.com/Loda990" target="_blank">
     <img src="https://github.com/Loda990.png" width="20" height="20" alt="Loda990's GitHub profile" />
     Loda990
 </a>    
