@@ -51,11 +51,11 @@ bool pumpManualControlledStatus = false;
 String pumpControlMode = "automatic";
 
 // Wifi ssid and password
-const char* ssid = "Redmi Note 11";
-const char* password = "123456789";
+const char* ssid = "YOUR_SSID";
+const char* password = "YOUR_PASSWORD";
 
 // Server ip
-const String serverUrl = "http://192.168.133.185:5000";
+const String serverUrl = "http://xxx.xxx.xxx.xxx:5000";
 
 
 void setup(){

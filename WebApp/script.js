@@ -1,4 +1,4 @@
-const SERVER = "http://192.168.133.185";
+const SERVER = "http://xxx.xxx.xxx.xxx";
 const PORT_ADDRESS = ':5000';
 const SERVER_URL = SERVER + PORT_ADDRESS;
 
