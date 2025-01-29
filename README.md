@@ -2,6 +2,18 @@
 
 An Arduino-based water level and quality monitoring system with control via web and mobile apps. Uses ultrasonic and TDS sensors to measure water level and quality.
 
+## Screenshots
+
+### Mobile App
+<img src="./README src/app.png" height="400px">
+
+### Web Interface
+<img src="./README src/web.png" width="500px">
+
+### Server
+<img src="./README src/server.png" width="500px">
+
+
 ## Overview
 This project features an **Arduino-based smart water tank system** that monitors water levels and quality using an **ultrasonic sensor** and a **TDS sensor**. The system provides data and control via a **web app** and a **mobile app** built with React Native.
 

@@ -2,6 +2,11 @@
 
 This folder contains the source code for the mobile app. The app provides an interface for users to monitor and control the system remotely.
 
+
+## Screenshot
+
+<img src="../README src/app.png" style="height:700px">
+
 ## Overview
 
 The mobile app is responsible for:

@@ -2,6 +2,10 @@
 
 This folder contains the source code for the web app. The app provides an interface for users to monitor and control the system remotely through a web browser.
 
+## Screenshot
+
+<img src="../README src/web.png" style="width:800px">
+
 ## Overview
 
 The web app is responsible for:

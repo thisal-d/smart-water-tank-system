@@ -2,6 +2,10 @@
 
 This folder contains the backend components, responsible for handling API requests, managing system state, and interacting with other parts of the project like the Arduino, mobile app, and web app.
 
+## Screenshot
+
+<img src="../README src/server.png" style="width:800px">
+
 ## Overview
 
 The server is built using **Flask** and is responsible for:
