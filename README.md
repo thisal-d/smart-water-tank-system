@@ -21,16 +21,32 @@ This project features an **Arduino-based smart water tank system** that monitors
   - **Green:** Water pump status indication.
 - **Internet Connectivity:** Enables remote monitoring and control via web and mobile apps.
 
+
+## Project Structure
+**Smart-Water-Tank-System**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── [_`Arduino/`_](./Arduino/)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──  [_`sketch_oct6a`_](./Arduino/sketch_oct6a/)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── [`sketch_oct6a.ino`](./Arduino/sketch_oct6a/sketch_oct6a.ino)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── [`Functions.ino`](./Arduino/sketch_oct6a/Functions.ino)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── [_`HttpServer/`_](./HttpServer/)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──[`HttpServer.py/`](./HttpServer/HttpServer.py)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;├── [_`MobileApp/`_](./MobileApp/)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└── [_`WebApp/`_](./WebApp/)<br>
+
 ---
 
 ## Setup Guide
 
-### 1. Arduino Setup
+### 1. [Arduino Setup](./Arduino/)
 1. Connect the sensors and actuators to the Arduino.
 2. Install the required libraries from [`libraries.txt`](./Arduino/sketch_oct6a/libraries.txt).
 3. Upload the [`sketch_oct6a.ino`](./Arduino/sketch_oct6a/sketch_oct6a.ino) sketch to the Arduino.
 
-### 2. HTTP Server Setup
+### 2. [HTTP Server Setup](./HttpServer/)
 1. Ensure **Python** is installed ([Download Python](https://www.python.org/)).
 2. Install dependencies from [`requirement.txt`](./HttpServer/requirement.txt):
  
@@ -38,11 +54,11 @@ This project features an **Arduino-based smart water tank system** that monitors
     pip install -r requirements.txt
     ```
 
-### 3. Web App Setup
+### 3. [Web App Setup](./WebApp/)
 1. Open the `index.html` file in a web browser.
 2. Use the interface to monitor and control the water levels remotely.
 
-### 4. Mobile App Setup
+### 4. [Mobile App Setup](./MobileApp/)
 1. Clone the `MobileApp` directory.
 2. Install **Node.js** and **npm** ([Download Node.js](https://nodejs.org/)).
 3. Install React Native CLI globally:

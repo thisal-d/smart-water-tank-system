@@ -85,15 +85,6 @@ To connect your Arduino to a Wi-Fi network, you need to set the **SSID** (networ
 
 3. Replace `YOUR_SSID` with the name of your Wi-Fi network and `YOUR_PASSWORD` with your network’s password.
 
-### Troubleshooting:
-
-- **Server Connectivity Issues**: If the Arduino can't connect to the Flask server, ensure that both devices (Arduino and server) are on the same Wi-Fi network and that the IP address and port are correct.
-- **Wi-Fi Issues**: If the Arduino is unable to connect to the Wi-Fi network, double-check the SSID and password values. Make sure the Wi-Fi network is within range and that the credentials are entered correctly.
-
----
-
-After completing these steps, your Arduino should be able to connect to the Wi-Fi network and communicate with the Flask server using the provided IP address.
-
 
 ### 7. Upload the Code
 
