@@ -4,14 +4,14 @@ An Arduino-based water level and quality monitoring system with control via web 
 
 ## Screenshots
 
-### Mobile App
-<img src="./README src/app.png" height="400px">
+#### [Mobile App](./MobileApp/)
+<a href="./MobileApp/"><img src="./README src/app.png" height="400px"></a>
 
-### Web Interface
-<img src="./README src/web.png" width="500px">
+#### [Web App](./WebApp/)
+<a href="./WebApp/"><img src="./README src/web.png" width="500px"></a>
 
-### Server
-<img src="./README src/server.png" width="500px">
+#### [Server](./HttpServer/)
+<a href="./HttpServer/"><img src="./README src/server.png" width="500px"></a>
 
 
 ## Overview
