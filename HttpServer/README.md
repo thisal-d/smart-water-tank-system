@@ -48,4 +48,4 @@ The server will listen for requests at `http://<YOUR_SERVER_IP>:5000`.
 ## 📸 Screenshot
 
 
-<img src="../README src/server.png" style="max-width:800px">
+<img src="../README src/server.png" style="width:800px">

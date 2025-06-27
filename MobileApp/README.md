@@ -48,4 +48,4 @@ A cross-platform mobile app for remote water tank monitoring & control.
 
 ## 📸 Screenshot
 
-<img src="../README src/app.png" style="max-height:700px">
+<img src="../README src/app.png" style="width:300px">

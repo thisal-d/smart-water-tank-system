@@ -35,4 +35,4 @@ A browser-based dashboard for monitoring and controlling your smart water tank s
 
 ## 📸 Screenshot
 
-![Web App Screenshot](../README%20src/web.png)
+<img src="../README src/web.png" style="width:800px">
