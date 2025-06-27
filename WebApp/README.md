@@ -28,8 +28,8 @@ A browser-based dashboard for monitoring and controlling your smart water tank s
 
 ## 🧑‍💻 Technologies
 
-- HTML/CSS/JavaScript (vanilla)
-- REST API (AJAX to Flask backend)
+- HTML/CSS/JavaScript
+- REST API (Flask backend)
 
 ---
 
