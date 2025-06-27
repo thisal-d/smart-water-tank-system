@@ -1,61 +1,38 @@
-# Web App
+# Web Dashboard
 
-This folder contains the source code for the web app. The app provides an interface for users to monitor and control the system remotely through a web browser.
+A browser-based dashboard for monitoring and controlling your smart water tank system.
 
-## Screenshot
+---
 
-<img src="../README src/web.png" style="width:800px">
+## 🌐 Features
 
-## Overview
+- Real-time water level and TDS display
+- Pump control and system status
+- Live data updates
+- Simple, responsive UI
 
-The web app is responsible for:
+---
 
-- Displaying data from the system, such as water level and water quality.
-- Sending control commands to the backend server (e.g., turning on/off the water pump, adjusting settings).
-- Interacting with the backend server via Wi-Fi to update and retrieve data.
+## ⚙️ Setup
 
-The web app is built using [**HTML**](./index.html), [**CSS**](style.css), and [**JavaScript**](./script.js).
+1. **Configure Backend Connection:**
+   - In [`script.js`](./script.js), set:
+     ```js
+     const SERVER = "http://<YOUR_SERVER_IP>";
+     const PORT_ADDRESS = ':5000';
+     ```
+2. **Start the Flask backend server first.**
+3. **Open [`index.html`](./index.html)** in your web browser.
 
-## Features
-- **Water Level Monitoring:** Displays real-time water level data from sensors in the tank.
-- **Water Quality Monitoring:** Shows water quality information, such as TDS (Total Dissolved Solids), based on sensor readings.
-- **Automatic Data Updates:** Data is updated automatically at regular intervals without requiring user intervention.
-- **User-Friendly Interface:** Simple and easy-to-use design for viewing and controlling the system.
+---
 
-## Setup
+## 🧑‍💻 Technologies
 
-### 1. Configuring the Server IP
+- HTML/CSS/JavaScript (vanilla)
+- REST API (AJAX to Flask backend)
 
-To configure the server IP for the web app, you need to modify the connection settings in the JavaScript file (`script.js`).
+---
 
-1. Open the [`script.js`](./script.js) file in your project.
-2. Update the `SERVER` constant with the IP address of the [Flask server](../HttpServer/):
+## 📸 Screenshot
 
-    ```javascript
-    const SERVER = "http://xxx.xxx.xxx.xxx";  // Replace with your server IP address
-    ```
-
-3. The `PORT_ADDRESS` should also be configured to match the port the Flask server is running on:
-
-    ```javascript
-    const PORT_ADDRESS = ':5000';  // Default Flask port
-    ```
-
-4. Make sure your server and the web app are on the same Wi-Fi network to allow proper communication.
-
-After making these changes, the web app will be able to communicate with the server using the provided IP address and port.
-
-### 3. Running the Web App
-
-To run the app locally:
-
-1. Open the [`index.html`](./index.html) file in your preferred browser.
-2. The web app will be displayed, and it will automatically connect to the Flask server for data.
-
-### 4. Testing the App
-
-Once the app is running, you can interact with it by:
-
-- Viewing system data such as water levels and water quality.
-- Sending commands to control the system, such as turning the pump on or off.
-- Ensuring that data updates automatically based on the server’s response.
+![Web App Screenshot](../README%20src/web.png)

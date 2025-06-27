@@ -1,49 +1,51 @@
-# Http Server
+# Backend Server (Flask)
 
-This folder contains the backend components, responsible for handling API requests, managing system state, and interacting with other parts of the project like the Arduino, mobile app, and web app.
+This folder contains the backend API server, acting as the bridge between the hardware (ESP32) and the user interfaces (web & mobile).
 
-## Screenshot
+---
 
-<img src="../README src/server.png" style="width:800px">
+## 🧠 Responsibilities
 
-## Overview
+- Receive and process sensor data from ESP32
+- Provide RESTful API for frontend apps
+- Manage tank state and pump/alert logic
+- Enable CORS for cross-origin frontend access
 
-The server is built using **Flask** and is responsible for:
+---
 
-- Handling system control requests (e.g., turn on/off system, manual pump control).
-- Serving system status (e.g., pump status, water level, water quality).
-- Handling device communication and status tracking.
-- Enabling cross-origin resource sharing (CORS) for communication with the frontend (web and mobile).
+## ⚙️ Setup
 
-## Setup
-
-1. **Install dependencies:**
-
-    Make sure you have `pip` installed. Then, install the required Python libraries by running the following command:
-
-    ```bash
+1. **Install Python 3 & pip**
+2. **Install dependencies:**
+    ```yaml
     pip install -r requirements.txt
     ```
+3. **Configure Server IP:**
+   - Edit `HttpServer.py` and replace the `SERVER` variable with your IP (default port: 5000)
+4. **Run the server:**
+   
+    ```yaml
+    python HttpServer.py
+    ```
 
-2. **Configuration:**
+The server will listen for requests at `http://<YOUR_SERVER_IP>:5000`.
 
-    - Replace the **`SERVER`** (line-7) variable in the `HttpServer.py` file with your server's IP address.
-    - The server will by default run on port `5000`, but you can change the port if necessary.
+---
 
-## Dependencies
-
-The server requires the following Python packages:
+## 🧩 Dependencies
 
 - Flask
 - flask_cors
 
-## Running the Server
+---
 
-To start the server, run the following command:
+## 📝 API Reference
+
+> Refer to code comments in `HttpServer.py` for endpoint documentation.
+
+---
+
+## 📸 Screenshot
 
 
-```bash
-python HttpServer.py
-```
-
-The server will start listening for incoming requests on the specified IP address and port.
+<img src="../README src/server.png" style="max-width:800px">

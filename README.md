@@ -1,114 +1,72 @@
 # Smart Water Tank System
 
-An Arduino-based water level and quality monitoring system with control via web and mobile apps. Uses ultrasonic and TDS sensors to measure water level and quality.
+A robust and extensible IoT platform for real-time water level and quality monitoring using Arduino/ESP32, TDS/ultrasonic sensors, and accessible via web and mobile applications.
 
-## Screenshots
+## 💡 Project Overview
 
-#### [Mobile App](./MobileApp/)
-<a href="./MobileApp/"><img src="./README src/app.png" height="400px"></a>
+This project enables smart monitoring and control of a water tank. It uses sensors to collect water level and quality data, and provides user interfaces for monitoring and management through a web app and a cross-platform mobile app.
 
-#### [Web App](./WebApp/)
-<a href="./WebApp/"><img src="./README src/web.png" width="500px"></a>
-
-#### [Server](./HttpServer/)
-<a href="./HttpServer/"><img src="./README src/server.png" width="500px"></a>
-
-
-## Overview
-This project features an **Arduino-based smart water tank system** that monitors water levels and quality using an **ultrasonic sensor** and a **TDS sensor**. The system provides data and control via a **web app** and a **mobile app** built with React Native.
-
-## Features
-- **Automated Control:** Automatically turns the water pump on/off based on sensor data.
-- **Web Interface:** Monitor and control the system via a web browser.
-- **Mobile App:** Access monitoring and control features on the go.
-- **Alerts & Notifications:** Uses a buzzer and LEDs for system status indications.
-
-## Components
-- **ESP32:** Microcontroller handling sensor data and pump control.
-- **Ultrasonic Sensor:** Measures water level.
-- **TDS Sensor:** Monitors water quality.
-- **Buzzer:** Provides alerts for critical water conditions.
-- **LED Indicators:**
-  - **Red:** System status indication.
-  - **Green:** Water pump status indication.
-- **Internet Connectivity:** Enables remote monitoring and control via web and mobile apps.
-
-
-## Project Structure
-**Smart-Water-Tank-System**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-&nbsp;&nbsp;&nbsp;&nbsp;├── [_`Arduino/`_](./Arduino/)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──  [_`sketch_oct6a`_](./Arduino/sketch_oct6a/)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── [`sketch_oct6a.ino`](./Arduino/sketch_oct6a/sketch_oct6a.ino)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── [`Functions.ino`](./Arduino/sketch_oct6a/Functions.ino)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-&nbsp;&nbsp;&nbsp;&nbsp;├── [_`HttpServer/`_](./HttpServer/)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└──[`HttpServer.py/`](./HttpServer/HttpServer.py)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-&nbsp;&nbsp;&nbsp;&nbsp;├── [_`MobileApp/`_](./MobileApp/)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;│<br>
-&nbsp;&nbsp;&nbsp;&nbsp;└── [_`WebApp/`_](./WebApp/)<br>
+**Main Technologies:**  
+- Hardware: ESP32, Ultrasonic Sensor, TDS Sensor  
+- Backend: Python (Flask)  
+- Web: HTML, CSS, JavaScript  
+- Mobile: React Native
 
 ---
 
-## Setup Guide
+## 🚀 Features
 
-### 1. [Arduino Setup](./Arduino/)
-1. Connect the sensors and actuators to the Arduino.
-2. Install the required libraries from [`libraries.txt`](./Arduino/sketch_oct6a/libraries.txt).
-3. Upload the [`sketch_oct6a.ino`](./Arduino/sketch_oct6a/sketch_oct6a.ino) sketch to the Arduino.
-
-### 2. [HTTP Server Setup](./HttpServer/)
-1. Ensure **Python** is installed ([Download Python](https://www.python.org/)).
-2. Install dependencies from [`requirement.txt`](./HttpServer/requirement.txt):
- 
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-### 3. [Web App Setup](./WebApp/)
-1. Open the `index.html` file in a web browser.
-2. Use the interface to monitor and control the water levels remotely.
-
-### 4. [Mobile App Setup](./MobileApp/)
-1. Clone the `MobileApp` directory.
-2. Install **Node.js** and **npm** ([Download Node.js](https://nodejs.org/)).
-3. Install React Native CLI globally:
-    ```bash
-    npm install -g react-native-cli
-    ```
-4. Navigate to the mobile app directory:
-    ```bash
-    cd MobileApp/ArduinoApp
-    ```
-5. Running the App:
-   - **Android:**
-     - Connect your Android device via USB.
-     - Enable **USB debugging** (Settings > Developer options > USB debugging).
-   - **iOS:** *(Not tested)*
-     - Open the project in Xcode (`MobileApp/ios` > `.xcworkspace`).
-     - Select your connected device and click **Run**.
-6. Start the app:
- 
-    ```bash
-    npx expo start
-    ```
+- **Automated Pump Control:** Turns the pump on/off based on water level and quality.
+- **Sensor Monitoring:** Real-time water level and TDS data.
+- **Alerts/Notifications:** Audible and visual alerts for critical tank conditions.
+- **User Interfaces:** 
+  - Web dashboard
+  - Mobile app for Android/iOS
+- **Remote Access:** Control and monitor from anywhere on the local network.
 
 ---
 
-## Contributors
+## 🗂️ Project Structure
 
-### Main Contributors:
+Smart-Water-Tank-System/ <br>
+│ <br>
+├── [**Arduino/**](./Arduino/) # Embedded code for ESP32 and sensors <br>
+│ <br>
+├── [**HttpServer/**](./HttpServer/) # Flask backend server for REST API & logic <br> 
+│ <br>
+├── [**WebApp/**](./WebApp/) # Web dashboard for control & monitoring <br>
+│ <br>
+├── [**MobileApp/**](./MobileApp/) # React Native mobile app for remote access <br>
+│ <br>
+└── **README.md** # Project overview and documentation
 
-- [<img src="https://github.com/DTD1234567.png" width="20" height="20" alt="DTD1234567's GitHub profile" /> DTD1234567](https://github.com/DTD1234567)
-- [<img src="https://github.com/Loda990.png" width="20" height="20" alt="Loda990's GitHub profile" /> Loda990](https://github.com/Loda990)
+
 
 ---
 
-### License
-This project is open-source and available under the **MIT License**.
+## 🔗 Quick Links
+
+- [Arduino Firmware](./Arduino/)
+- [Backend Server (Flask)](./HttpServer/)
+- [Web Dashboard](./WebApp/)
+- [Mobile App](./MobileApp/)
 
 ---
 
-### Feedback & Support
-For any issues or improvements, feel free to open an **issue** or submit a **pull request** on GitHub!
+## 🖼️ Sample Interfaces
+
+| Mobile App | Web Dashboard | Server Console |
+|---|---|---|
+| ![Mobile App](./README%20src/app.png) | ![Web App](./README%20src/web.png) | ![Server](./README%20src/server.png) |
+
+---
+
+## 🛠️ Getting Started
+
+Each component has its own README for detailed setup. Start with the backend, then configure the hardware, and finally set up your preferred frontend.
+
+---
+
+## 📄 License
+
+This project is MIT licensed.
