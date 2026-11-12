@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arduino Project Control</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 class="title">Smart Water Tank System</h1>
+
+    <div class="container">
+        <div class="status-container" id="status-container">
+            <h2>Water Status</h2>
+            <div class="output-container">
+                <img src="imgs/water-level.png" class="water-status-icon">
+                <span class="water-status-title">Water Level :</span>
+                <span class="water-status-value" id="water-level-rate-value">0 %</span>
+            </div>
+
+            <div class="output-container">
+                <img src="imgs/quality.png" class="water-status-icon">
+                <span class="water-status-title">Water Quality :</span>
+                <span class="water-status-value" id="water-quality-value">Critical ☹️</span>
+            </div>
+
+            <div class="water-status-container">
+                Water Level :
+                <span id="water-level-value-cm">0 cm</span> / 
+                <span id="tank-height-value-cm">0 cm</span>
+            </div>
+
+            <h2>System Status</h2>
+            <div class="output-container">
+                <img src="imgs/system.png" class="system-status-icon">
+                <span class="system-status-title">System Status :</span>
+                <span class="system-status-value" id="system-status-value">OFF</span>
+            </div>
+
+            <div class="output-container">
+                <img src="imgs/pump.png" class="system-status-icon">
+                <span class="system-status-title">Pump Status :</span>
+                <span class="system-status-value" id="pump-status-value">OFF</span>
+            </div>
+
+            <div class="output-container">
+                <img src="imgs/buzzer.png" class="system-status-icon">
+                <span class="system-status-title">Buzzer Status :</span>
+                <span class="system-status-value" id="buzzer-status-value">OFF</span>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <div class="control-row">
+                <span class="btn-text">System :</span>
+                <button class="control-button" id="system-control-button">ON</button>
+            </div>
+
+            <div class="control-row">
+                <span class="btn-text">Pump :</span>
+                <button class="control-button" id="pump-control-button">ON</button>
+            </div>
+
+            <div class="system-status-container">
+                <div class="system-status-subcontainer">
+                    <span class="system-status-title">Server Connection :</span>
+                    <span class="system-device-status" id="server-connection-status">Unknown</span>
+                    <div class="status-circle" id="server-connection-status-circle"></div>
+                </div>
+
+                <div class="system-status-subcontainer">
+                    <span class="system-status-title">Device Status :</span>
+                    <span class="system-device-status" id="device-status">Offline</span>
+                    <div class="status-circle" id="device-status-circle"></div>
+                </div>
+               
+            </div>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
